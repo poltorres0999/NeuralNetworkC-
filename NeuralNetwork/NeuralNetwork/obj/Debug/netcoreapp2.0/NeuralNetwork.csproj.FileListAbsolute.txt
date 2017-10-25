@@ -1,0 +1,11 @@
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\obj\Debug\netcoreapp2.0\NeuralNetwork.csprojResolveAssemblyReference.cache
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\obj\Debug\netcoreapp2.0\NeuralNetwork.csproj.CoreCompileInputs.cache
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\obj\Debug\netcoreapp2.0\NeuralNetwork.AssemblyInfoInputs.cache
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\obj\Debug\netcoreapp2.0\NeuralNetwork.AssemblyInfo.cs
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\bin\Debug\netcoreapp2.0\NeuralNetwork.deps.json
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\bin\Debug\netcoreapp2.0\NeuralNetwork.runtimeconfig.json
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\bin\Debug\netcoreapp2.0\NeuralNetwork.runtimeconfig.dev.json
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\bin\Debug\netcoreapp2.0\NeuralNetwork.dll
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\bin\Debug\netcoreapp2.0\NeuralNetwork.pdb
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\obj\Debug\netcoreapp2.0\NeuralNetwork.dll
+C:\Users\polto\Documents\GithubProjects\NeuralNetworkC#\NeuralNetwork\NeuralNetwork\obj\Debug\netcoreapp2.0\NeuralNetwork.pdb
