@@ -6,18 +6,20 @@ namespace NeuralNetwork
 {
     class Layer
     {
-        private List<Neuron> Neurons { get; set; }
-        
-        public Layer (int numNeuorns)
+        public List<Neuron> Neurons { get; set; }
+
+        public Layer(int numNeuorns)
         {
             this.Neurons = new List<Neuron>(numNeuorns);
         }
 
-        public int GetNeuronsCount ()
+        public int NeuronsCount
         {
-            return this.Neurons.Count;
+           get 
+            {
+                return Neurons.Count;
+            }
         }
-
 
     }
 }

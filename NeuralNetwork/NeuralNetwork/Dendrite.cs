@@ -6,7 +6,8 @@
 
         public Dendrite ()
         {
-            //this.Weight 
+            CryptoRandom cr = new CryptoRandom();
+            this.Weight = cr.RandomValue;
         }
     }
 }

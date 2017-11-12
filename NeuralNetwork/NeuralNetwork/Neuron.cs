@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NeuralNetwork
 {
@@ -11,13 +12,18 @@ namespace NeuralNetwork
 
         public Neuron ()
         {
-
+            Random r = new Random();
+          
+            this.Bias = r.NextDouble();
             this.Dendrites = new List<Dendrite>();
         }
 
-        public int GetDendriteCount ()
+        public int GetDendriteCount 
         {
-            return this.Dendrites.Count;
+            get
+            {
+                return Dendrites.Count;
+            }
         }
 
     } 
