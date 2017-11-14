@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace NeuralNetwork
 {
-    class Layer
-    {
-        public List<Neuron> Neurons { get; set; }
 
-        public Layer(int numNeuorns)
-        {
-            this.Neurons = new List<Neuron>(numNeuorns);
-        }
+    class Layer: List<Neuron>{
 
-        public int NeuronsCount
-        {
-           get 
+        public Layer(int numNeuorns):base(numNeuorns){
+            for(int i = 0; i < numNeuorns; i++)
             {
-                return Neurons.Count;
+                this.Add(new Neuron());
             }
         }
 
     }
+
 }
