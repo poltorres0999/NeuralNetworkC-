@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace NeuralNetwork
+namespace NeuralNetwork {
 
-{
-    class CryptoRandom
-    {
+    class CryptoRandom {
         public double RandomValue { get; set; }
 
-        public CryptoRandom()
-        {
-            using (RNGCryptoServiceProvider p = new RNGCryptoServiceProvider())
-            {
+        public CryptoRandom() {
+            using (RNGCryptoServiceProvider p = new RNGCryptoServiceProvider()) {
                 Random r = new Random(p.GetHashCode());
                 this.RandomValue = r.NextDouble();
             }
