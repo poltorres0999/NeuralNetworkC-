@@ -32,8 +32,6 @@ namespace NeuralNetwork
             this.OutputLayer = new Layer(OutputNodes);
             this.HiddenLayers = new LayerList(HiddenLayersNodes);
 
-            
-
             //Initialize the Input layer (nodes and dendridtes)
 
             for (int i = 0; i < InputNodes; i++)
@@ -65,5 +63,10 @@ namespace NeuralNetwork
             });
 
         }
+
+        public void Train(TrainingExample a) { }
+        public void Query(TrainingExample a) { }
+
+
     }
 }
