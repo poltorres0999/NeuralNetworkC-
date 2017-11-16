@@ -8,7 +8,7 @@ namespace NeuralNetwork
 {
     class TrainingExample {
         public int [] InitialValues { get; set; }
-        public int [] DesiredOutputs { get; set; }
+        public double [] DesiredOutputs { get; set; }
 
         public TrainingExample(int[] TrainingValues) { }
 

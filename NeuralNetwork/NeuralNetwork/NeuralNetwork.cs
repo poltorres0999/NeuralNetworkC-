@@ -52,21 +52,53 @@ namespace NeuralNetwork
 
         public void Train(TrainingExample trainingExample)
         {
+            if (trainingExample.DesiredOutputs.Length != this.OutputNodes) {
+                throw new Exception("The number of output nodes and the nodes of the example doesn't match");
+            }
 
+            for (int i = 0; i < this.OutputNodes; i++) {
+                this.OutputLayer[i].Delta = Math.Abs(this.OutputLayer[i].Value - trainingExample.DesiredOutputs[i]);
+            }
+
+            for (int i = this.HiddenLayers.Count; i > -2; i--) {
+
+                if (i == this.HiddenLayers.Count) {
+                    for (int j = 0; j < HiddenLayers[i].Count; j++) {
+                        for (int k = 0; k < this.OutputNodes; k++) {
+                            this.HiddenLayers[i][j].Delta += Math.Abs((this.HiddenLayers[i][j].Value -
+                                this.OutputLayer[k].Delta) * this.HiddenLayers[i][j].Dendrites[k].Weight);
+                        }
+                    }
+                } else  if (i == -1 ) {
+                    for (int j = 0; j < HiddenLayers[i].Count; j++) {
+                        for (int k = 0; k < this.OutputNodes; k++) {
+                            this.InputLayer[j].Delta += Math.Abs((this.InputLayer[j].Value -
+                                 this.HiddenLayers[i + 1][j].Delta) * this.HiddenLayers[i][j].Dendrites[k].Weight);
+                        }
+                    }
+                } else {
+                    for (int j = 0; j < HiddenLayers[i].Count; j++) {
+                        for (int k = 0; k < this.OutputNodes; k++) {
+                            this.HiddenLayers[i][j].Delta += Math.Abs((this.HiddenLayers[i][j].Value -
+                                 this.HiddenLayers[i + 1][j].Delta) * this.HiddenLayers[i][j].Dendrites[k].Weight);
+                        }
+                    }
+                }
+            }
         }
+        //TODO: nueron.value muest be 0 at the start of the loop/ return I think should be a bool
+        public bool Query(TrainingExample trainingExample) {
 
-        public double[] Query(TrainingExample trainingExample) {
             if (trainingExample.InitialValues.Length != this.InputLayer.Count) {
                 throw new Exception("The number of initual values and the nodes of the input layer doesn't match");
             }
-
-            double[] finalOutputs = new double[this.OutputNodes];
 
             for (int i = 0; i < trainingExample.InitialValues.Length; i++) {
                 this.InputLayer[i].Value = trainingExample.InitialValues[i];
             }
 
             for (int l = 0; l < this.HiddenLayers.Count +1; l++) {
+                //Calculates the input values for the first Hidden layer.
                 if (l == 0) {
                     for (int i = 0; i < this.HiddenLayers[l].Count; i++) {
                         for (int j = 0; j < this.InputLayer.Count; j++) {
@@ -74,7 +106,7 @@ namespace NeuralNetwork
                         }
                         this.HiddenLayers[l][i].Value = SigmoidFunction(this.HiddenLayers[l][i].Value + this.HiddenLayers[l][i].Bias);
                     }
-
+                //Calculates the input values for the Hidden Layers except the last one.
                 } else if (l == this.HiddenLayers.Count) {
                     for (int i = 0; i < this.HiddenLayers[l].Count; i++) {
                         for (int j = 0; j < this.HiddenLayers[l - 1].Count; j++) {
@@ -83,7 +115,7 @@ namespace NeuralNetwork
                         this.OutputLayer[i].Value = SigmoidFunction(this.OutputLayer[i].Value + this.OutputLayer[i].Bias);
                     }
                 }
-
+                //Calculates the input values for the last Hidden Layers.
                 for (int i = 0; i < this.HiddenLayers[l].Count; i++) {
                     for (int j = 0; j < this.HiddenLayers[l-1].Count; j++){
                         this.HiddenLayers[l][i].Value += this.HiddenLayers[l-1][j].Value * this.HiddenLayers[l-1][j].Dendrites[i].Weight;
@@ -92,11 +124,8 @@ namespace NeuralNetwork
                 }
             }
 
-            for (int i = 0; i < this.OutputNodes; i++) {
-                finalOutputs[i] = this.OutputLayer[i].Value;
-            }
-
-            return finalOutputs;
+            //TODO add check for the correct value
+            return true;
         }
     }
 }
