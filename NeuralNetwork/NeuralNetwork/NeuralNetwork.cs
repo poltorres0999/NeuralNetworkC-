@@ -56,35 +56,40 @@ namespace NeuralNetwork
                 throw new Exception("The number of output nodes and the nodes of the example doesn't match");
             }
 
+            this.Query(trainingExample);
+
             for (int i = 0; i < this.OutputNodes; i++) {
                 this.OutputLayer[i].Delta = Math.Abs(this.OutputLayer[i].Value - trainingExample.DesiredOutputs[i]);
             }
 
-            for (int i = this.HiddenLayers.Count; i > -2; i--) {
+            for (int i = this.HiddenLayers.Count; i >= 0; i--) {
 
                 if (i == this.HiddenLayers.Count) {
-                    for (int j = 0; j < HiddenLayers[i].Count; j++) {
+                    for (int j = 0; j < HiddenLayers[i -1].Count; j++) {
                         for (int k = 0; k < this.OutputNodes; k++) {
-                            this.HiddenLayers[i][j].Delta += Math.Abs((this.HiddenLayers[i][j].Value -
-                                this.OutputLayer[k].Delta) * this.HiddenLayers[i][j].Dendrites[k].Weight);
+                            this.HiddenLayers[i -1][j].Delta += Math.Abs((this.HiddenLayers[i -1][j].Value) -
+                                (this.OutputLayer[k].Delta * this.HiddenLayers[i -1][j].Dendrites[k].Weight));
                         }
                     }
-                } else  if (i == -1 ) {
+                } else  if (i == 0 ) {
                     for (int j = 0; j < HiddenLayers[i].Count; j++) {
                         for (int k = 0; k < this.OutputNodes; k++) {
-                            this.InputLayer[j].Delta += Math.Abs((this.InputLayer[j].Value -
-                                 this.HiddenLayers[i + 1][j].Delta) * this.HiddenLayers[i][j].Dendrites[k].Weight);
+                            this.InputLayer[j].Delta += Math.Abs((this.InputLayer[j].Value) -
+                                 (this.HiddenLayers[i][j].Delta * this.InputLayer[j].Dendrites[k].Weight));
                         }
                     }
                 } else {
                     for (int j = 0; j < HiddenLayers[i].Count; j++) {
                         for (int k = 0; k < this.OutputNodes; k++) {
-                            this.HiddenLayers[i][j].Delta += Math.Abs((this.HiddenLayers[i][j].Value -
-                                 this.HiddenLayers[i + 1][j].Delta) * this.HiddenLayers[i][j].Dendrites[k].Weight);
+                            this.HiddenLayers[i -1][j].Delta += Math.Abs((this.HiddenLayers[i -1][j].Value) -
+                                 (this.HiddenLayers[i][j].Delta * this.HiddenLayers[i -1][j].Dendrites[k].Weight));
                         }
                     }
                 }
             }
+
+
+
         }
         //TODO: nueron.value muest be 0 at the start of the loop/ return I think should be a bool
         public bool Query(TrainingExample trainingExample) {
