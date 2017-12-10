@@ -88,8 +88,6 @@ namespace NeuralNetwork
                 }
             }
 
-
-
         }
         //TODO: nueron.value muest be 0 at the start of the loop/ return I think should be a bool
         public bool Query(TrainingExample trainingExample) {
@@ -106,6 +104,7 @@ namespace NeuralNetwork
                 //Calculates the input values for the first Hidden layer.
                 if (l == 0) {
                     for (int i = 0; i < this.HiddenLayers[l].Count; i++) {
+                        this.HiddenLayers[l][i].Value = 0;
                         for (int j = 0; j < this.InputLayer.Count; j++) {
                             this.HiddenLayers[l][i].Value += this.InputLayer[j].Value * this.InputLayer[j].Dendrites[i].Weight;
                         }
@@ -114,6 +113,7 @@ namespace NeuralNetwork
                 //Calculates the input values for the Hidden Layers except the last one.
                 } else if (l == this.HiddenLayers.Count) {
                     for (int i = 0; i < this.HiddenLayers[l].Count; i++) {
+                        this.OutputLayer[i].Value = 0;
                         for (int j = 0; j < this.HiddenLayers[l - 1].Count; j++) {
                             this.OutputLayer[i].Value += this.HiddenLayers[l - 1][j].Value * this.HiddenLayers[l - 1][j].Dendrites[i].Weight;
                         }
@@ -122,6 +122,7 @@ namespace NeuralNetwork
                 }
                 //Calculates the input values for the last Hidden Layers.
                 for (int i = 0; i < this.HiddenLayers[l].Count; i++) {
+                    this.HiddenLayers[l][i].Value = 0;
                     for (int j = 0; j < this.HiddenLayers[l-1].Count; j++){
                         this.HiddenLayers[l][i].Value += this.HiddenLayers[l-1][j].Value * this.HiddenLayers[l-1][j].Dendrites[i].Weight;
                     }
@@ -129,8 +130,26 @@ namespace NeuralNetwork
                 }
             }
 
-            //TODO add check for the correct value
-            return true;
+            double[] finalOutputs = new double[this.OutputNodes];
+
+            for (int i = 0; i < this.OutputNodes; i++)
+            {
+                finalOutputs[i] = this.OutputLayer[i].Value;
+            }
+
+            int maxIndex = 0;
+            double aux = 0.0;
+            for (int i = 0; i < this.OutputNodes; i++)
+            {
+                if (finalOutputs[i] > aux)
+                {
+                    aux = finalOutputs[i];
+                    maxIndex = i;
+                }
+            }
+
+            return maxIndex == trainingExample.ResultIndex;
+                   
         }
     }
 }
