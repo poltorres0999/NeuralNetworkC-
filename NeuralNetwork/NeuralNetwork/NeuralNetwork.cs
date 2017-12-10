@@ -35,7 +35,7 @@ namespace NeuralNetwork
             //Initialize the Input layer (dendridtes)
 
             for (int i = 0; i < InputNodes; i++) {
-                for (int j = 0; j < HiddenLayersNodes[1]; i++) {
+                for (int j = 0; j < HiddenLayersNodes[0]; j++) {
                     this.InputLayer[i].Dendrites.Add(new Dendrite());
                     this.InputLayer[i].Bias = 0;
                 }  

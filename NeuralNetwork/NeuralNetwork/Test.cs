@@ -27,10 +27,10 @@ namespace NeuralNetwork
         {
             String line; 
             System.IO.StreamReader file =
-            new System.IO.StreamReader(@"../../TrainingExamples/" + this.FileName);
+            new System.IO.StreamReader(@"TrainingExamples/" + this.FileName);
             while ((line = file.ReadLine()) != null)
             {
-                int[] allValues = Array.ConvertAll(line.Split("s"), s => int.Parse(s));
+                int[] allValues = Array.ConvertAll(line.Split(","), s => int.Parse(s));
                 this.NnToTest.Train(new TrainingExample(allValues));
             }
         }
@@ -55,6 +55,13 @@ namespace NeuralNetwork
                 int[] allValues = Array.ConvertAll(line.Split("s"), s => int.Parse(s));
                 SingleQuery(allValues);
             }
+        }
+
+        public static void Main ()
+        {
+            Test test1 = new Test(784, 10, new int[] { 100, 50, 100 } , 0.2, "mnist_test_10.csv");
+            test1.Train();
+            test1.Query();
         }
 
 
