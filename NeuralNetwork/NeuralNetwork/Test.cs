@@ -35,7 +35,28 @@ namespace NeuralNetwork
             }
         }
 
-        
+        public void SingleQuery (int[] inputValues)
+        {
+            if (this.NnToTest.Query(new TrainingExample(inputValues))) {
+                System.Console.WriteLine("The neural Network has found the correct value {0}", Environment.NewLine);
+                System.Console.WriteLine("Expected value: {0}{1}", inputValues[0], Environment.NewLine);
+            } else {
+                System.Console.WriteLine("The neural Network hasn't found the correct value {0}", Environment.NewLine);
+            }
+        }
+
+        public void Query ()
+        {
+            String line;
+            System.IO.StreamReader file =
+            new System.IO.StreamReader(@"../../TrainingExamples/" + this.FileName);
+            while ((line = file.ReadLine()) != null)
+            {
+                int[] allValues = Array.ConvertAll(line.Split("s"), s => int.Parse(s));
+                SingleQuery(allValues);
+            }
+        }
+
 
     }
 }
