@@ -16,9 +16,10 @@ namespace NeuralNetwork
         private LayerList HiddenLayers;
         private double LearningRate;
 
-        public double SigmoidFunction(double input)
+        public double SigmoidFunction(double x)
         {
-            return 1 / (1 + Math.Exp(-input));
+            return 1 / (1 + Math.Exp(-x));
+
         }
 
         public NeuralNetwork (int InputNodes, int[] HiddenLayersNodes, int OutputNodes, double learningRate)
@@ -40,6 +41,8 @@ namespace NeuralNetwork
                     this.InputLayer[i].Bias = 0;
                 }  
             }
+
+
             //Create the dendrites, if it's the last layer, it will have as many dendrites as the neurons of the output layer
             //if not, it will have as many dendrites as the nodes of the next hidden layer.
             this.HiddenLayers.Last().ForEach((neuron) => {
@@ -72,17 +75,17 @@ namespace NeuralNetwork
                         }
                     }
                 } else  if (i == 0 ) {
-                    for (int j = 0; j < HiddenLayers[i].Count; j++) {
-                        for (int k = 0; k < this.OutputNodes; k++) {
+                    for (int j = 0; j < this.InputNodes; j++) {
+                        for (int k = 0; k < this.HiddenLayers[i].Count; k++) {
                             this.InputLayer[j].Delta += Math.Abs((this.InputLayer[j].Value) -
-                                 (this.HiddenLayers[i][j].Delta * this.InputLayer[j].Dendrites[k].Weight));
+                                 (this.HiddenLayers[i][k].Delta * this.InputLayer[j].Dendrites[k].Weight));
                         }
                     }
                 } else {
-                    for (int j = 0; j < HiddenLayers[i].Count; j++) {
-                        for (int k = 0; k < this.OutputNodes; k++) {
+                    for (int j = 0; j < HiddenLayers[i - 1].Count; j++) {
+                        for (int k = 0; k < this.HiddenLayers[i].Count; k++) {
                             this.HiddenLayers[i -1][j].Delta += Math.Abs((this.HiddenLayers[i -1][j].Value) -
-                                 (this.HiddenLayers[i][j].Delta * this.HiddenLayers[i -1][j].Dendrites[k].Weight));
+                                 (this.HiddenLayers[i][k].Delta * this.HiddenLayers[i -1][j].Dendrites[k].Weight));
                         }
                     }
                 }
@@ -112,22 +115,28 @@ namespace NeuralNetwork
                     }
                 //Calculates the input values for the Hidden Layers except the last one.
                 } else if (l == this.HiddenLayers.Count) {
-                    for (int i = 0; i < this.HiddenLayers[l].Count; i++) {
+                    for (int i = 0; i < this.OutputNodes; i++) {
                         this.OutputLayer[i].Value = 0;
                         for (int j = 0; j < this.HiddenLayers[l - 1].Count; j++) {
                             this.OutputLayer[i].Value += this.HiddenLayers[l - 1][j].Value * this.HiddenLayers[l - 1][j].Dendrites[i].Weight;
                         }
                         this.OutputLayer[i].Value = SigmoidFunction(this.OutputLayer[i].Value + this.OutputLayer[i].Bias);
                     }
-                }
-                //Calculates the input values for the last Hidden Layers.
-                for (int i = 0; i < this.HiddenLayers[l].Count; i++) {
-                    this.HiddenLayers[l][i].Value = 0;
-                    for (int j = 0; j < this.HiddenLayers[l-1].Count; j++){
-                        this.HiddenLayers[l][i].Value += this.HiddenLayers[l-1][j].Value * this.HiddenLayers[l-1][j].Dendrites[i].Weight;
+                } else
+                {
+                    //Calculates the input values for the last Hidden Layers.
+                    for (int i = 0; i < this.HiddenLayers[l].Count; i++)
+                    {
+                        this.HiddenLayers[l][i].Value = 0;
+                        for (int j = 0; j < this.HiddenLayers[l - 1].Count; j++)
+                        {
+                            this.HiddenLayers[l][i].Value += this.HiddenLayers[l - 1][j].Value * this.HiddenLayers[l - 1][j].Dendrites[i].Weight;
+                        }
+                        this.HiddenLayers[l][i].Value = SigmoidFunction(this.HiddenLayers[l][i].Value + this.HiddenLayers[l][i].Bias);
                     }
-                    this.HiddenLayers[l][i].Value = SigmoidFunction(this.HiddenLayers[l][i].Value + this.HiddenLayers[l][i].Bias);
                 }
+               
+                
             }
 
             double[] finalOutputs = new double[this.OutputNodes];
